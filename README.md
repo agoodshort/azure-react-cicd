@@ -90,16 +90,9 @@ Wait a few moments and if everything went well your build should be successful.
 
 ### Automated
 
-1. Copy the content of the [azuredeploy-appservice.json](./azuredeploy-appservice.json)
-2. Click on the button below
-3. Select **build your own template**
-4. Paste the *azuredeploy-appservice.json* template
-5. Click **Save**
-6. Edit the details to match your naming scheme
-7. Click **Create**
+The button below uses an ARM template to deploy an App Service with the correct configuration to deploy your React project.
 
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://ms.portal.azure.com/#create/Microsoft.Template)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fgoodshort%2Fazure-react-cicd%2Fmain%2Fazuredeploy-appservice.json)
 
 
 ### Manually
