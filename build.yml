@@ -1,0 +1,67 @@
+# Build, test and and publish artifact
+
+# ---------------------------------------------
+# Pipeline Config
+# ---------------------------------------------
+
+trigger:
+- master
+
+pool:
+  vmImage: windows-latest
+
+steps:
+
+# ---------------------------------------------
+# Configure build environment
+# ---------------------------------------------
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.13'
+  displayName: 'Install Node.js'
+
+# ---------------------------------------------
+# Install and build
+# ---------------------------------------------
+
+- script: 
+    npm install
+  displayName: 'npm install'
+ 
+- script: 
+    npm run build
+  displayName: 'npm build'
+
+# ---------------------------------------------
+# Test
+# ---------------------------------------------
+
+- script: npm test -- --watchAll=false
+  displayName: 'npm test'
+
+# OWASP testing
+- task: dependency-check-build-task@6
+  inputs:
+    projectName: 'React-CICD'
+    scanPath: '*'
+    format: 'HTML'
+
+# ---------------------------------------------
+# Publish artifact
+# ---------------------------------------------
+
+- task: CopyFiles@2
+  displayName: 'Copy files'
+  inputs:
+    sourceFolder: 'build' 
+    Contents: '**/*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+ 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish artifact'
